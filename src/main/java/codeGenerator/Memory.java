@@ -20,7 +20,13 @@ public class Memory {
         lastDataAddress = stratDataMemoryAddress;
     }
 
-    public int getTemp() {
+    // Separate Query method
+    public int generateTempAddress() {
+        return lastTempIndex + tempSize;
+    }
+
+    // Separate Modifier method
+    public int allocateTemp() {
         lastTempIndex += tempSize;
         return lastTempIndex - tempSize;
     }
