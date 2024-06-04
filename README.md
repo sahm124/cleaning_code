@@ -1,5 +1,5 @@
 # بازآرایی
-##الگوی Facade (CompilerFacade):
+## الگوی Facade (CompilerFacade):
 با معرفی کلاس CompilerFacade تعامل با کلاس Parser را ساده کردیم که فرآیند پارس کردن را مدیریت می‌کند. پیچیدگی را کاهش داده و منطق اصلی برنامه را تمیزتر و نگهداری آن را آسان‌تر می‌کند.
 
 الگوی Facade (CodeGenerationFacade): یک کلاس CodeGenerationFacade معرفی کردیم تا تعامل با کلاس‌های CodeGenerator، SymbolTable و Memory را کپسوله کند. پیچیدگی تولید کد و مدیریت نمادها را پنهان کرده و کلاس Parser را ساده‌تر و متمرکزتر بر منطق پارس می‌کند.
