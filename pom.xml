@@ -17,6 +17,24 @@
             </resource>
         </resources>
         <plugins>
+            <!-- Maven Java Formatter Plugin -->
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.17.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Optional configuration, for example, to use Eclipse formatting settings -->
+                    <configFile>${project.basedir}/formatter-config.xml</configFile>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
