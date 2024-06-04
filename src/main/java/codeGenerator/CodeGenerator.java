@@ -15,15 +15,20 @@ import java.util.Stack;
  * Created by Alireza on 6/27/2015.
  */
 public class CodeGenerator {
-    private Memory memory = new Memory();
-    private Stack<Address> ss = new Stack<Address>();
-    private Stack<String> symbolStack = new Stack<>();
-    private Stack<String> callStack = new Stack<>();
+    private Memory memory;
+    private Stack<Address> ss;
+    private Stack<String> symbolStack;
+    private Stack<String> callStack;
     private SymbolTable symbolTable;
-    private Map<Integer, SemanticAction> actions = new HashMap<>();
+    private Map<Integer, SemanticAction> actions;
 
-    public CodeGenerator() {
-        symbolTable = new SymbolTable(memory);
+    public CodeGenerator(Memory memory, SymbolTable symbolTable) {
+        this.memory = memory;
+        this.symbolTable = symbolTable;
+        this.ss = new Stack<>();
+        this.symbolStack = new Stack<>();
+        this.callStack = new Stack<>();
+        this.actions = new HashMap<>();
 
         actions.put(1, new CheckID());
         actions.put(2, new Pid());
