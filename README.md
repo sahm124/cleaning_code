@@ -1,58 +1,34 @@
-# requirements
-- An IDE like Intellij Idea
-- JDK >= 11
+# MiniJava
+Mini-Java is a subset of Java. MiniJava compiler implement a compiler for the Mini-java
+programming language.
 
-# Tests
-
-## test0
-
-satisfy:
-- consistency in c code
-
-phase 1 command: -xml codeGenerationTests/Test0/test0.xml
-
-phase 2 command: -i codeGenerationTests/Test0/phase2/diagram_info -h codeGenerationTests/Test0/phase2/headers -p1 codeGenerationTests/Test0/phase2/phase1 -c codeGenerationTests/Test0/phase2/c_files
-
-## test1
-
-satisfy:
-- constructor
-- destructor
-- overloading constructor
-
-phase 1 command: -xml codeGenerationTests/Test1/test1.xml
-
-phase 2 command: -i codeGenerationTests/Test1/phase2/diagram_info -h codeGenerationTests/Test1/phase2/headers -p1 codeGenerationTests/Test1/phase2/phase1 -c codeGenerationTests/Test1/phase2/c_files
-
-
-## test2
-
-satisfy:
-- inheritance
-- method
-- overloading method
-- overriding method
-
-phase 1 command: -xml codeGenerationTests/Test2/test2.xml
-
-phase 2 command: -i codeGenerationTests/Test2/phase2/diagram_info -h codeGenerationTests/Test2/phase2/headers -p1 codeGenerationTests/Test2/phase2/phase1 -c codeGenerationTests/Test2/phase2/c_files
-
-## test3
-
-satisfy:
-- more than one level inheritance
-- upcast
-
-phase 1 command: -xml codeGenerationTests/Test3/test3.xml
-
-phase 2 command: -i codeGenerationTests/Test3/phase2/diagram_info -h codeGenerationTests/Test3/phase2/headers -p1 codeGenerationTests/Test3/phase2/phase1 -c codeGenerationTests/Test3/phase2/c_files
-
-## test4
-
-satisfy:
-- use a class in another
-- array
-
-phase 1 command: -xml codeGenerationTests/Test4/test4.xml
-
-phase 2 command: -i codeGenerationTests/Test4/phase2/diagram_info -h codeGenerationTests/Test4/phase2/headers -p1 codeGenerationTests/Test4/phase2/phase1 -c codeGenerationTests/Test4/phase2/c_files
+# Rules
+```
+Goal --> Source EOF
+Source --> ClassDeclarations MainClass
+MainClass --> class Identifier { public static void main() { VarDeclarations Statements}}
+ClassDeclarations --> ClassDeclaration ClassDeclarations | lambda
+ClassDeclaration --> class Identifier Extension { FieldDeclarations MethodDeclarations }
+Extension --> extends Identifier | lambda
+FieldDeclarations --> FieldDeclaration FieldDeclarations | lambda
+FieldDeclaration --> static Type Identifier ;
+VarDeclarations --> VarDeclaration VarDeclarations | lambda
+VarDeclaration --> Type Identifier ;
+MethodDeclarations --> MethodDeclaration MethodDeclarations | lambda
+MethodDeclaration --> public static Type Identifier ( Parameters ) { VarDeclarations Statements return GenExpression ; }
+Parameters --> Type Identifier Parameter | lambda
+Parameter --> , Type Identifier Parameter | lambda
+Type --> boolean | int
+Statements --> Statements Statement | lambda
+Statement --> { Statements } | if ( GenExpression ) Statement else Statement | while ( GenExpression ) Statement | System.out.println ( GenExpression ) ; | Identifier = GenExpression ;
+GenExpression --> Expression | RelExpression
+Expression --> Expression + Term | Expression - Term | Term
+Term --> Term * Factor | Factor
+Factor --> ( Expression ) | Identifier | Identifier . Identifier | Identifier . Identifier ( Arguments ) | true | false | Integer
+RelExpression --> RelExpression && RelTerm | RelTerm
+RelTerm --> Expression == Expression | Expression < Expression
+Arguments --> GenExpression Argument | lambda
+Argument --> , GenExpression Argument | lambda
+Identifier --> <IDENTIFIER_LITERAL>
+Integer --> <INTEGER_LITERAL>
+```

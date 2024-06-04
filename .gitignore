@@ -1,11 +1,3 @@
-.idea/*
-*.iml
-*.class
-tokens.txt
-generate/
-diagram_detail.xml
-unknown.txt
-result/
-out
-a.out
-*.swp
+.idea
+target
+target

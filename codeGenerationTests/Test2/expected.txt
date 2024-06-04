@@ -1,6 +1,0 @@
-car
-none
-old
-Benz
-none
-new
