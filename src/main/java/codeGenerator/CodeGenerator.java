@@ -103,7 +103,7 @@ public class CodeGenerator {
 
                 Symbol s = symbolTable.get(className, methodName, next.value);
                 varType t = varType.Int;
-                switch (s.type) {
+                switch (s.getType()) {
                     case Bool:
                         t = varType.Bool;
                         break;
@@ -111,7 +111,7 @@ public class CodeGenerator {
                         t = varType.Int;
                         break;
                 }
-                ss.push(new Address(s.address, t));
+                ss.push(new Address(s.getAddress(), t));
 
 
             } catch (Exception e) {
@@ -131,7 +131,7 @@ public class CodeGenerator {
 
         Symbol s = symbolTable.get(symbolStack.pop(), symbolStack.pop());
         varType t = varType.Int;
-        switch (s.type) {
+        switch (s.getType()) {
             case Bool:
                 t = varType.Bool;
                 break;
@@ -139,7 +139,7 @@ public class CodeGenerator {
                 t = varType.Int;
                 break;
         }
-        ss.push(new Address(s.address, t));
+        ss.push(new Address(s.getAddress(), t));
 
     }
 
@@ -199,7 +199,7 @@ public class CodeGenerator {
         try {
             Symbol s = symbolTable.getNextParam(callStack.peek(), methodName);
             varType t = varType.Int;
-            switch (s.type) {
+            switch (s.getType()) {
                 case Bool:
                     t = varType.Bool;
                     break;
@@ -211,7 +211,7 @@ public class CodeGenerator {
             if (param.varType != t) {
                 ErrorHandler.printError("The argument type isn't match");
             }
-            memory.add3AddressCode(Operation.ASSIGN, param, new Address(s.address, t), null);
+            memory.add3AddressCode(Operation.ASSIGN, param, new Address(s.getAddress(), t), null);
 
 //        symbolStack.push(className);
 
