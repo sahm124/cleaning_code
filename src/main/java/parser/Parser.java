@@ -40,34 +40,23 @@ public class Parser {
     }
 
     public void startParse(java.util.Scanner sc) {
-        lexicalAnalyzer = new lexicalAnalyzer(sc);
+        initializeLexicalAnalyzer(sc);
         Token lookAhead = lexicalAnalyzer.getNextToken();
         boolean finish = false;
-        Action currentAction;
+
         while (!finish) {
             try {
-                Log.print(/*"lookahead : "+*/ lookAhead.toString() + "\t" + parsStack.peek());
-                currentAction = parseTable.getActionTable(parsStack.peek(), lookAhead);
+                Log.print(lookAhead.toString() + "\t" + parsStack.peek());
+                Action currentAction = parseTable.getActionTable(parsStack.peek(), lookAhead);
                 Log.print(currentAction.toString());
 
                 switch (currentAction.action) {
                     case shift:
-                        parsStack.push(currentAction.number);
+                        handleShiftAction(currentAction);
                         lookAhead = lexicalAnalyzer.getNextToken();
                         break;
                     case reduce:
-                        Rule rule = rules.get(currentAction.number);
-                        for (int i = 0; i < rule.RHS.size(); i++) {
-                            parsStack.pop();
-                        }
-                        Log.print(/*"state : " +*/ parsStack.peek() + "\t" + rule.LHS);
-                        parsStack.push(parseTable.getGotoTable(parsStack.peek(), rule.LHS));
-                        Log.print(/*"new State : " + */parsStack.peek() + "");
-                        try {
-                            codeGenerationFacade.executeSemanticFunction(rule.semanticAction, lookAhead);
-                        } catch (Exception e) {
-                            Log.print("Code Generator Error");
-                        }
+                        handleReduceAction(currentAction, lookAhead);
                         break;
                     case accept:
                         finish = true;
@@ -79,5 +68,28 @@ public class Parser {
             }
         }
         if (!ErrorHandler.hasError) codeGenerationFacade.printMemory();
+    }
+
+    private void initializeLexicalAnalyzer(java.util.Scanner sc) {
+        lexicalAnalyzer = new lexicalAnalyzer(sc);
+    }
+
+    private void handleShiftAction(Action currentAction) {
+        parsStack.push(currentAction.number);
+    }
+
+    private void handleReduceAction(Action currentAction, Token lookAhead) {
+        Rule rule = rules.get(currentAction.number);
+        for (int i = 0; i < rule.RHS.size(); i++) {
+            parsStack.pop();
+        }
+        Log.print(parsStack.peek() + "\t" + rule.LHS);
+        parsStack.push(parseTable.getGotoTable(parsStack.peek(), rule.LHS));
+        Log.print(parsStack.peek() + "");
+        try {
+            codeGenerationFacade.executeSemanticFunction(rule.semanticAction, lookAhead);
+        } catch (Exception e) {
+            Log.print("Code Generator Error");
+        }
     }
 }

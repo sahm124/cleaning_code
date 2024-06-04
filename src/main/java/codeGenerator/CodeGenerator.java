@@ -242,38 +242,42 @@ public class CodeGenerator {
     }
 
     public void add() {
-        Address temp = new Address(memory.allocateTemp(), varType.Int);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
 
         if (s1.varType != varType.Int || s2.varType != varType.Int) {
             ErrorHandler.printError("In add two operands must be integer");
         }
-        memory.add3AddressCode(Operation.ADD, s1, s2, temp);
-        ss.push(temp);
+        Address temp = new Address(memory.allocateTemp(), varType.Int);
+        AddressParameter param = new AddressParameter(s1, s2, temp, varType.Int);
+        memory.add3AddressCode(Operation.ADD, param.getAddress1(), param.getAddress2(), param.getResult());
+        ss.push(param.getResult());
     }
 
     public void sub() {
-        Address temp = new Address(memory.allocateTemp(), varType.Int);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
         if (s1.varType != varType.Int || s2.varType != varType.Int) {
             ErrorHandler.printError("In sub two operands must be integer");
         }
-        memory.add3AddressCode(Operation.SUB, s1, s2, temp);
-        ss.push(temp);
+        Address temp = new Address(memory.allocateTemp(), varType.Int);
+        AddressParameter param = new AddressParameter(s1, s2, temp, varType.Int);
+        memory.add3AddressCode(Operation.SUB, param.getAddress1(), param.getAddress2(), param.getResult());
+        ss.push(param.getResult());
     }
 
     public void mult() {
-        Address temp = new Address(memory.allocateTemp(), varType.Int);
         Address s2 = ss.pop();
         Address s1 = ss.pop();
         if (s1.varType != varType.Int || s2.varType != varType.Int) {
             ErrorHandler.printError("In mult two operands must be integer");
         }
-        memory.add3AddressCode(Operation.MULT, s1, s2, temp);
+        Address temp = new Address(memory.allocateTemp(), varType.Int);
+
+        AddressParameter param = new AddressParameter(s1, s2, temp, varType.Int);
+        memory.add3AddressCode(Operation.MULT, param.getAddress1(), param.getAddress2(), param.getResult());
+        ss.push(param.getResult());
 //        memory.saveMemory();
-        ss.push(temp);
     }
 
     public void label() {
